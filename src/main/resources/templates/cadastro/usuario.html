@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Usuário</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<link type="text/css" rel="stylesheet"
+	href="/materialize/css/materialize.css" media="screen,projection" />
+<link type="text/css" rel="stylesheet"
+	href="/materialize/css/materialize.min.css" media="screen,projection" />
+
+<style type="text/css">
+table.striped>tbody>tr:nth-child(odd) {
+	background-color: rgba(158, 154, 154, 0.5);
+}
+
+form input[type-submit] {
+	color: white;
+}
+</style>
+</head>
+<body>
+<form action="/index">
+<button type="submit" class="btn-floating disabled" value="Home">Home</button>>
+<label>Cadastro de Usuário</label>
+</form>
+	<h5>Cadastro de Usuário</h5>
+	<br>
+	<div th:each="m : ${msg}">
+		<span th:text="${m}"> </span>
+	</div>
+	<br>
+	<div class="row">
+		<form action="pesquisar" method="post" class="col s12">
+			<div class="row">
+				<div class="input-field col s6">
+					<label for="pesquisa" class="active">Pesquisa por nome:</label> <input
+						name="nom_usuario" class="validate">
+				</div>
+				<div class="input-field col s6">
+					<input class="waves-effect waves-light btn" type="submit"
+						value="Pesquisar" id="pesquisar"> <a
+						class="waves-effect waves-light btn" href="/listarUsuario">
+						Listar Usuários</a>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div class="row">
+		<form action="salvarUsuario" method="post" th:object=${usuarioobj}
+			class="col s12" id="formUsuario">
+			<div class="row">
+
+				<div class="input-field col s12">
+					<input class="waves-effect waves-light btn" type="submit"
+						value="Salvar" style="padding-top: -100px">
+					<button class="waves-effect waves-light btn"
+						onclick="document.getElementByCodUsuario('formUsuario').reset();">Novo</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s2">
+
+					<input name="cod_usuario" th:field="*{cod_usuario}"
+						readonly="readonly" id="cod_usuario"> <label for="id"
+						class="active">Código</label>
+				</div>
+				<div class="input-field col s5">
+					<input id="nom_usuario" name="nom_usuario"
+						th:field="*{nom_usuario}" class="validate"><br> <br>
+					<label for="id" class="active">Nome</label>
+				</div>
+			</div>
+
+
+		</form>
+	</div>
+
+
+	<table class="striped">
+		<thead>
+			<tr>
+				<th>Código</th>
+				<th>Nome</th>
+			</tr>
+		</thead>
+		<tr th:each="usuario : ${usuarios}">
+			<td th:text="${usuario.cod_usuario}"></td>
+			<td th:text="${usuario.nom_usuario}"></td>
+			<td><a class="waves-effect waves-light btn" 
+				th:href="@{/editarUsuario/{cod_usuario}(cod_usuario=${usuario.cod_usuario})}">Editar</a></td>
+			<td><a class="waves-effect waves-light btn" 
+				th:href="@{/excluirUsuario/{cod_usuario}(cod_usuario=${usuario.cod_usuario})}">Excluir</a></td>
+		</tr>
+	</table>
+
+
+	<script type="text/javascript" src="/materialize/js/materialize.js"></script>
+	<script type="text/javascript" src="/materialize/js/materialize.min.js"></script>
+</body>
+</html>
